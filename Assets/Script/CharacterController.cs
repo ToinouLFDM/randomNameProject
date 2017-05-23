@@ -10,20 +10,33 @@ public class CharacterController : MonoBehaviour {
 	private float down = -1;
 	private bool IsGoingUp = false;
 	private bool IsGoingDown = false;
+	private bool doubleJump = false;
 	// Use this for initialization
 	void Start () 
 	{
 		up = up * speed;
-		down = down * speed;
+		down = 0;
 	}
 
 	// Update is called once per frame
 	void Update () 
 	{
 		
-		if (Input.GetButtonDown ("Jump") && !IsGoingDown) 
+		if (Input.GetButton ("Jump") && (!IsGoingDown || !doubleJump)) {
+			IsGoingUp = true;
+			if (IsGoingDown) {
+				doubleJump = true;
+				up = 1 * speed;
+				IsGoingDown = false;
+				down = 0;
+			}
+		} else if(IsGoingUp)
 		{
-			IsGoingUp=true;
+			IsGoingUp = false;
+			up = 1 * speed;
+			IsGoingDown = true;
+			down = 0;
+
 		}
 
 		if (IsGoingUp) 
@@ -41,7 +54,9 @@ public class CharacterController : MonoBehaviour {
 		Vector3 Up = new Vector3 (0, up, 0);
 
 
-		if ((PlayerPosition.position.y) >= (8)) 
+		/*if (  (((PlayerPosition.position.y) >= (8)) && !doubleJump ) || (up<= 0) || ( ((PlayerPosition.position.y) >= (11)) && doubleJump  ) ) 
+		 */
+		if( PlayerPosition.position.y >= 11.5)
 		{
 			IsGoingUp = false; 
 			up =1 * speed;
@@ -49,7 +64,11 @@ public class CharacterController : MonoBehaviour {
 
 		} else 
 		{
-			up += 0.01f;
+			up -= 0.005f;
+			if (up <= 0) 
+			{
+				up = 0.01f;
+			}
 			PlayerPosition.Translate(Up);
 		}
 
@@ -62,9 +81,9 @@ public class CharacterController : MonoBehaviour {
 		if ((PlayerPosition.position.y) <= (0.5f)) 
 		{
 			PlayerPosition.position= new Vector3 (0,0.5f,0) ;
-			down = -1 * speed;
+			down = 0;
 			IsGoingDown = false; 
-
+			doubleJump = false;
 		} else 
 		{
 			down -= 0.01f;
@@ -72,4 +91,5 @@ public class CharacterController : MonoBehaviour {
 		}
 
 	}
+
 }

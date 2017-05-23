@@ -19,7 +19,7 @@ public class MoveField : MonoBehaviour {
 		Vector3 translate = new Vector3 (-speed, 0, 0);
 		FieldPosition.Translate(translate);
 
-		if (FieldPosition.position.x <= -9) 
+		if (FieldPosition.position.x <= -30) 
 		{
 			Destroy (gameObject);
 		}
