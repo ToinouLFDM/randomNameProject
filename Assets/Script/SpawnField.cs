@@ -20,7 +20,7 @@ public class SpawnField : MonoBehaviour {
 	{
 		//Initilise les spawn des obstacles
 		Spawn = new Vector3 (27, 0, 0);
-		SpawnHaut = new Vector3 (27, 12, 0);
+		//SpawnHaut = new Vector3 (27, 12, 0);
 
 	}
 	
@@ -44,23 +44,40 @@ public class SpawnField : MonoBehaviour {
 	//spawn Obastacle
 	void SpawnRandomObstacle()
 	{
-		Vector3 Scale = Obstacle.transform.localScale;
+		float SpawnPositionZ = 0;
 		//defini la hauteur de l'obstacle
-		Scale.y = Random.Range (2f, 5f);
+		int randomZ = Random.Range (1, 4);
+
+		switch ((int)randomZ) 
+		{
+		case 1:
+			SpawnPositionZ = -2.0f;
+			break;
+		case 2:
+			SpawnPositionZ = 0.0f;
+			break;
+		case 3:
+			SpawnPositionZ = 2.0f;
+			break;
+		default:
+			SpawnPositionZ = 0.0f;
+			break;
+		}
+
 
 		// defeni la postion du spawn de l'obastacle en fct de sa taille et aléatoirement sur  x 
-		Vector3 NewSpawn = new Vector3 (Spawn.x + (Random.Range (1f, 6f)), Spawn.y + (Scale.y/2), Spawn.z);
-		Obstacle.transform.localScale = Scale;
+		Vector3 NewSpawn = new Vector3 (Spawn.x + (Random.Range (1f, 6f)), (float)(Spawn.y+0.375), SpawnPositionZ);
+		//Obstacle.transform.localScale = Scale;
 		Instantiate (Obstacle, NewSpawn, TerrainTransform.rotation);
 
 
 
 		//la meme chose pour les obstacles du haut
-		Vector3 ScaleHaut = Obstacle.transform.localScale;
+		/*Vector3 ScaleHaut = Obstacle.transform.localScale;
 		ScaleHaut.y = Random.Range (2f, 5f);
 		Vector3 NewSpawnHaut = new Vector3 (Spawn.x + (Random.Range (1f, 6f)), SpawnHaut.y - (ScaleHaut.y/2), Spawn.z);
 		Obstacle.transform.localScale = ScaleHaut;
-		Instantiate (Obstacle, NewSpawnHaut, TerrainTransform.rotation);
+		Instantiate (Obstacle, NewSpawnHaut, TerrainTransform.rotation);*/
 
 
 
