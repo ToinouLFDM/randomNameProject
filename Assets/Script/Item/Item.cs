@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class Item : MonoBehaviour {
 
-	//initialisation tableau d'item
-	bool []Item_ ;
+    private int activationTime;
+
 	// Use this for initialization
 	void Start () 
 	{
-
-
 
 	}
 	
