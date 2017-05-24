@@ -24,4 +24,11 @@ public class Item : MonoBehaviour {
 	{
 		
 	}
+
+
+    void OnTriggerEnter(Collider player)
+    {
+        Character myPlayer = player.GetComponent<Character>();
+        Destroy(gameObject);
+    }
 }

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour {
 
 	//variable de la somme du player
-	public int Life;
-	int LifeObj=0;
+	private int Life;
+    public int Life_ { get; set; }
 
 	bool []Item ;
 
@@ -20,6 +20,7 @@ public class Character : MonoBehaviour {
 	{
 		//initilise le text affiché
 		LifeText = Text.GetComponent <Text>();
+        Life = 10;
 		//initialisation tableau d'item
 		for (int i = 0; i < 10; i++)
 		{
@@ -35,36 +36,7 @@ public class Character : MonoBehaviour {
 		LifeText.text = Life.ToString();
 	}
 
-	//Détruit l'obstacle rencontré et recupère et soustrait la variable enregistré dans l'obstacle
-	void OnTriggerEnter(Collider obstacle)
-	{
-		ItemOnObstacle ();
-		int ItemObstacle = 0;
-		//recupere la vie et l'index de l'item de l'obstacle
-		LifeObj = obstacle.GetComponent<Obstacle> ().Life_;
-		ItemObstacle = obstacle.GetComponent<Obstacle> ().Item_;
-
-		Destroy (obstacle.gameObject);
-
-		//verifie si l'obstacle possede un Item et si oui lequel
-		if ( ItemObstacle> 0) 
-		{
-			Item [ItemObstacle] = true;
-
-		}
-
-		//diminue la some du Player
-		Life -= LifeObj;
-
-
-	}
-
-
-
-	void ItemOnObstacle()
-	{
-		
-	}
+	
 	void ItemOnCharacter()
 	{
 

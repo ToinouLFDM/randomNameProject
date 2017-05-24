@@ -9,9 +9,9 @@ public class Obstacle : MonoBehaviour {
 	private int Life;
 	public int Life_{get ;set ;}
 
-	//initialisation tableau d'item
-	int Item = 0;
-	public int Item_{get ;set ;}
+    private int obstacleType;
+    public int obstacleType_{ get; set; }        //0 => generic, 1 ==> ungeneric
+
 	//variable pour afficher le texte
 	Text LifeText;
 	public GameObject Text;
@@ -23,22 +23,23 @@ public class Obstacle : MonoBehaviour {
 		//initilise le text affiché
 		LifeText = Text.GetComponent <Text>();
 		//initilise aléatoirement la valeur de l'obstacle
-		Life_ = Random.Range(1,5);
-		//initilise si l'obstacle possede un item et si oui lequel
-		int i = Random.Range (1, 10);
-		if (i == 1) 
-		{
-			Item_ = Random.Range (1, 1);
-		}
-
-
+		Life = Random.Range(1,5);
+        obstacleType = Random.Range(0, 1);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
 		//affiche la somme del'obstacle
-		LifeText.text = Life_.ToString();
+		LifeText.text = Life.ToString();
 
 	}
+
+    // destroy gameObj and decrease playerLife
+    void OnTriggerEnter(Collider player)
+    {
+        Character myPlayer = player.GetComponent<Character>();
+        myPlayer.Life_ = (obstacleType == 0) ? myPlayer.Life_ - Life :  myPlayer.Life_ / 2;
+        Destroy(gameObject);
+    }
 }
