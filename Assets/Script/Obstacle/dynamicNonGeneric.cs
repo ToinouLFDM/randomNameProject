@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class movingNonGeneric : Obstacle {
+public class dynamicNonGeneric : Obstacle {
 
 	// Use this for initialization
 	void Start () {
