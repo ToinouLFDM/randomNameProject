@@ -10,7 +10,10 @@ public class CharacterController : MonoBehaviour {
 	private float down = -1;
 	private bool IsGoingUp = false;
 	private bool IsGoingDown = false;
-	private bool doubleJump = false;
+	private bool IsGoingLeft = false;
+	private bool IsGoingRight = false;
+	float InitialPositionZ= 0;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -22,20 +25,20 @@ public class CharacterController : MonoBehaviour {
 	void Update () 
 	{
 		
-		if (Input.GetButton ("Jump") && (!IsGoingDown || !doubleJump)) {
-			IsGoingUp = true;
-			if (IsGoingDown) {
-				doubleJump = true;
-				up = 1 * speed;
-				IsGoingDown = false;
-				down = 0;
-			}
-		} else if(IsGoingUp)
+		if (Input.GetButtonDown ("Jump") && !IsGoingDown )
 		{
-			IsGoingUp = false;
-			up = 1 * speed;
-			IsGoingDown = true;
-			down = 0;
+			IsGoingUp = true;
+
+		}
+		if (Input.GetButtonDown ("SideLeft") && !IsGoingRight && (InitialPositionZ<2))
+		{
+			
+			IsGoingLeft = true;
+
+		}
+		if (Input.GetButtonDown ("SideRight") && !IsGoingLeft && (InitialPositionZ>-2))
+		{
+			IsGoingRight = true;
 
 		}
 
@@ -47,6 +50,17 @@ public class CharacterController : MonoBehaviour {
 		{
 			GoingDown ();
 		}
+		if (IsGoingLeft) 
+		{
+			GoingLeft ();
+		}
+		if (IsGoingRight) 
+		{
+			GoingRight ();
+		}
+
+
+
 	}
 
 	void GoingUp()
@@ -56,7 +70,7 @@ public class CharacterController : MonoBehaviour {
 
 		/*if (  (((PlayerPosition.position.y) >= (8)) && !doubleJump ) || (up<= 0) || ( ((PlayerPosition.position.y) >= (11)) && doubleJump  ) ) 
 		 */
-		if( PlayerPosition.position.y >= 11.5)
+		if( PlayerPosition.position.y >= 2.5)
 		{
 			IsGoingUp = false; 
 			up =1 * speed;
@@ -80,14 +94,48 @@ public class CharacterController : MonoBehaviour {
 		Vector3 Down = new Vector3 (0, down, 0);
 		if ((PlayerPosition.position.y) <= (0.5f)) 
 		{
-			PlayerPosition.position= new Vector3 (0,0.5f,0) ;
+			PlayerPosition.position= new Vector3 (0,0.5f,InitialPositionZ) ;
 			down = 0;
 			IsGoingDown = false; 
-			doubleJump = false;
 		} else 
 		{
 			down -= 0.01f;
 			PlayerPosition.Translate(Down);
+		}
+
+	}
+	void GoingLeft()
+	{
+
+		Vector3 Left = new Vector3 (0, 0, speed);
+		if( PlayerPosition.position.z >= (InitialPositionZ+2) )
+				{
+					IsGoingLeft= false; 
+					InitialPositionZ += 2;
+
+				}
+		
+			 else 
+			{
+			
+			PlayerPosition.Translate(Left);
+			}
+
+	}
+	void GoingRight()
+	{
+		Vector3 Right = new Vector3 (0, 0, -speed);
+		if( PlayerPosition.position.z <= (InitialPositionZ-2) )
+		{
+			IsGoingRight= false; 
+			InitialPositionZ -= 2;
+
+		}
+
+		else 
+		{
+
+			PlayerPosition.Translate(Right);
 		}
 
 	}
