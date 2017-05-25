@@ -26,16 +26,15 @@ public class Malus : MonoBehaviour {
         {
             case 0:
                 bonusDuration = 10f;
-                StartCoroutine(myPlayer.onBecomeX2(bonusDuration));
+                StartCoroutine(myPlayer.handleMalus(bonusDuration, gameObject, 0));
                 break;
             case 1:
                 bonusDuration = 10f;
-                StartCoroutine(myPlayer.onBecomeFaster(bonusDuration));
+                StartCoroutine(myPlayer.handleMalus(bonusDuration,gameObject, 1));
                 break;
             case 2:
                 bonusDuration = 10f;
-                StartCoroutine(myPlayer.onBecomeBlind(bonusDuration));
-                myPlayer.isBlind_ = false;
+                StartCoroutine(myPlayer.handleMalus(bonusDuration, gameObject, 2));
                 break;
         }
     }

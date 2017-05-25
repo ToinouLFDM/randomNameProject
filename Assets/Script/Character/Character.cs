@@ -47,27 +47,39 @@ public class Character : MonoBehaviour {
 	}
 
 	
-	public IEnumerator onBecomeX2(float duration)
-	{
-        isX2 = true;
-        yield return new WaitForSeconds(duration);
-        Debug.Log("no more x2");
-        isX2 = false;
-	}
 
-    public IEnumerator onBecomeFaster(float duration)
+    public IEnumerator handleMalus(float duration, GameObject obj, int type)
     {
-        isFaster = true;
-        yield return new WaitForSeconds(duration);
-        isFaster = false;
-
-    }
-
-    public IEnumerator onBecomeBlind(float duration)
-    {
-        isBlind = true;
+        switch (type)
+        {
+            case 0:
+                isX2 = true;
+                break;
+            case 1:
+                isFaster = true;
+                break;
+            case 2:
+                isBlind = true;
+                break;
+        }
+        Debug.Log(obj);
+        MeshRenderer mesh =  obj.GetComponent<MeshRenderer>();
+        mesh.enabled = false;
         yield return new WaitForSeconds(duration);
         Debug.Log("no more blind");
-        isBlind = false;
+        Destroy(obj);
+        switch (type)
+        {
+            case 0:
+                isX2 = false;
+                break;
+            case 1:
+                isFaster = false;
+                break;
+            case 2:
+                isBlind = false;
+                break;
+        }
+
     }
 }
