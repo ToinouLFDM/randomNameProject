@@ -51,6 +51,7 @@ public class Character : MonoBehaviour {
 	{
         isX2 = true;
         yield return new WaitForSeconds(duration);
+        Debug.Log("no more x2");
         isX2 = false;
 	}
 
@@ -66,6 +67,7 @@ public class Character : MonoBehaviour {
     {
         isBlind = true;
         yield return new WaitForSeconds(duration);
+        Debug.Log("no more blind");
         isBlind = false;
     }
 }
