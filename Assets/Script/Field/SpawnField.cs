@@ -20,9 +20,9 @@ public class SpawnField : MonoBehaviour {
 	void Start () 
 	{
 		//Initilise les spawn des obstacles
-		Spawn = new Vector3 (27, 0, 0);
+		Spawn = new Vector3 (72, 0, 0);
 		//SpawnHaut = new Vector3 (27, 12, 0);
-
+		staticNonGenericPostion = new bool[4];
 	}
 	
 	// Update is called once per frame
@@ -31,7 +31,7 @@ public class SpawnField : MonoBehaviour {
 		//compteur pour afficher toute les 90 frame un nouvel obstacle ( 0.1 correspond a la vitesse de défilement des obstacle)
 		count2 += 0.1f;
 		count += 0.1f;
-		if (count2 >= 9) 
+		if (count2 >=18 ) 
 		{
 			
 
@@ -39,21 +39,48 @@ public class SpawnField : MonoBehaviour {
 			staticNonGenericPostion[1] =false;
 			staticNonGenericPostion[2] =false;
 			staticNonGenericPostion[3] =false;
-			SpawnRandomObstacleStaticNonGeniric (1);
-			SpawnRandomObstacleStaticNonGeniric (2);
-			SpawnRandomObstacleStaticNonGeniric (3);
+
+			int RandomPlace = Random.Range (1, 4);
+			if (RandomPlace == 1) 
+			{
+				SpawnRandomObstacleStaticNonGeniric (1);
+			}
+			 RandomPlace = Random.Range (1, 4);
+			if (RandomPlace == 1) 
+			{
+				SpawnRandomObstacleStaticNonGeniric (2);
+			}
+			 RandomPlace = Random.Range (1, 4);
+			if (RandomPlace == 1) 
+			{
+				SpawnRandomObstacleStaticNonGeniric (3);
+			}
+
+		
 		}
-		if (count >= 4.5) 
+		if (count >= 9) 
 		{
 
 
 			count = 0;
 
-
-			SpawnRandomObstacle (1);
-			SpawnRandomObstacle (2);
-			SpawnRandomObstacle (3);
-
+			int RandomPlace = Random.Range (1, 4);
+			if (RandomPlace == 1) 
+			{
+				SpawnRandomObstacle (1);
+			}
+			RandomPlace = Random.Range (1, 4);
+			if (RandomPlace == 1) 
+			{
+				SpawnRandomObstacle (2);
+			}
+			RandomPlace = Random.Range (1, 4);
+			if (RandomPlace == 1) 
+			{
+				SpawnRandomObstacle (3);
+			}
+		
+			Debug.Log (" down");
 		}
 
 			
@@ -71,16 +98,16 @@ public class SpawnField : MonoBehaviour {
 		{
 		case 1:
 			SpawnPositionZ = -2.0f;
-			SpawnPositionY =(staticNonGenericPostion [1] == true)?2:0 ;
+			SpawnPositionY =(staticNonGenericPostion [1] == true)?2f:0 ;
 			break;
 		case 2:
 			SpawnPositionZ = 0.0f;
-			SpawnPositionY =(staticNonGenericPostion [1] == true)?2:0 ;
+			SpawnPositionY =(staticNonGenericPostion [2] == true)?2f:0 ;
 
 			break;
 		case 3:
 			SpawnPositionZ = 2.0f;
-			SpawnPositionY =(staticNonGenericPostion [1] == true)?2:0 ;
+			SpawnPositionY =(staticNonGenericPostion [3] == true)?2f:0 ;
 
 			break;
 		default:
@@ -93,7 +120,7 @@ public class SpawnField : MonoBehaviour {
 
 
 		// defeni la postion du spawn de l'obastacle en fct de sa taille et aléatoirement sur  x 
-		Vector3 NewSpawn = new Vector3 (Spawn.x + (Random.Range (1f, 4f)), SpawnPositionY +(float)0.375f, SpawnPositionZ);
+		Vector3 NewSpawn = new Vector3 (Spawn.x - (Random.Range (1f, 4f)), SpawnPositionY +(float)0.375f, SpawnPositionZ);
 		//Obstacle.transform.localScale = Scale;
 		Instantiate (Obstacle, NewSpawn, TerrainTransform.rotation);
 
@@ -137,7 +164,7 @@ public class SpawnField : MonoBehaviour {
 			break;
 		}
 		// defeni la postion du spawn de l'obastacle en fct de sa taille et aléatoirement sur  x 
-		Vector3 NewSpawn = new Vector3 (Spawn.x + (Random.Range (1f, 6f)), 1f, SpawnPositionZ);
+		Vector3 NewSpawn = new Vector3 (Spawn.x , 0, SpawnPositionZ);
 		//Obstacle.transform.localScale = Scale;
 		Instantiate (ObstacleStaticNonGeneric, NewSpawn, TerrainTransform.rotation);
 	}
