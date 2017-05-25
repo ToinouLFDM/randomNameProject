@@ -7,6 +7,7 @@ public class SpawnField : MonoBehaviour {
 
 	public GameObject Obstacle;
 	public GameObject ObstacleStaticNonGeneric;
+	public GameObject MysteryBox;
 	//Transform du Terrain
 	public Transform TerrainTransform;
 
@@ -122,7 +123,14 @@ public class SpawnField : MonoBehaviour {
 		// defeni la postion du spawn de l'obastacle en fct de sa taille et aléatoirement sur  x 
 		Vector3 NewSpawn = new Vector3 (Spawn.x - (Random.Range (1f, 4f)), SpawnPositionY +(float)0.375f, SpawnPositionZ);
 		//Obstacle.transform.localScale = Scale;
-		Instantiate (Obstacle, NewSpawn, TerrainTransform.rotation);
+		int randomBox =Random.Range(1,7);
+		if (randomBox == 1) {
+			Instantiate (MysteryBox, NewSpawn, TerrainTransform.rotation);
+		} else 
+		{
+			Instantiate (Obstacle, NewSpawn, TerrainTransform.rotation);
+		}
+
 
 
 
