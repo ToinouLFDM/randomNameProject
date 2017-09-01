@@ -18,18 +18,23 @@ public class Character : MonoBehaviour {
     private bool isBlind;
     public bool isBlind_ { get; set; }
 
-
+	int Count;
+	int Score;
     bool []Item ;
+
 
 	//variable pour afficher le texte
 	Text LifeText;
 	public GameObject Text;
+	Text ScoreText;
+	public GameObject Text2;
 
 	// Use this for initialization
 	void Start () 
 	{
 		//initilise le text affiché
 		LifeText = Text.GetComponent <Text>();
+		ScoreText = Text2.GetComponent <Text>();
         Life_ = 10;
 		//initialisation tableau d'item
 		for (int i = 0; i < 10; i++)
@@ -44,6 +49,14 @@ public class Character : MonoBehaviour {
 	{
 		//affiche la somme du player
 		LifeText.text = Life_.ToString();
+		ScoreText.text = Score.ToString ();
+		Count+=1;
+		if (Count == 18) 
+		{
+			Count = 0;
+			Score += (Life_ / 10) + 1;
+		}
+
 	}
 
 	

@@ -7,6 +7,7 @@ public class CharacterController : MonoBehaviour {
 	public float speed;
 	public Transform PlayerPosition;
 	private float up = 1;
+	private float upCount =0 ;
 	private float down = -1;
 	private bool IsGoingUp = false;
 	private bool IsGoingDown = false;
@@ -33,11 +34,18 @@ public class CharacterController : MonoBehaviour {
 		if (Physics.Raycast (transform.position, -Vector3.up, out hit, 100.0f)) 
 		{
 			//the postion in y of the terrain under the player
-			InitialPositionY = hit.point.y + 0.5f;
-			//if the distance beetwen the plyayer and an objest is too small then stop the player to going down
-			if (hit.distance < 0.6f) 
+
+			if (hit.collider.tag == "Field") 
+			{
+				InitialPositionY = hit.point.y + 0.5f;
+			}
+			//if the distance beetwen the player and an objest is too small then stop the player to going down
+			if ( (hit.distance < 0.6f) && (hit.collider.tag == "Field") ) 
 			{
 				down = 0;
+				up =1 * speed;
+				upCount =0 ;
+				IsGoingUp = false;
 				IsGoingDown = false;
 				Vector3 Adjustment = new Vector3 (0, 0.1f, 0);
 				PlayerPosition.Translate( Adjustment);
@@ -45,9 +53,10 @@ public class CharacterController : MonoBehaviour {
 			}
 
 			//if the distance between the player and an object is too big then going down the player
-			if (hit.distance > 1 && !IsGoingUp) 
+			if ( (hit.distance > 1) && !IsGoingUp  && (hit.collider.tag == "Field") ) 
 			{
 				IsGoingDown = true;
+
 			}
 				
 		}
@@ -56,7 +65,10 @@ public class CharacterController : MonoBehaviour {
 		{
 			isInObstacle_ = false;
 			IsGoingLeft = false;
+			IsGoingUp = false;
 			IsGoingRight = false;
+			up =1 * speed;
+			upCount =0 ;
 			Vector3 Adjustment = new Vector3 (0, InitialPositionY, InitialPositionZ);
 			PlayerPosition.position = Adjustment;
 		}
@@ -88,7 +100,7 @@ public class CharacterController : MonoBehaviour {
 		*/
 		if (Input.GetButtonDown ("Jump") && !IsGoingDown)
 		{
-			
+			up =1 * speed;
 			IsGoingUp = true;
 
 		}
@@ -132,10 +144,11 @@ public class CharacterController : MonoBehaviour {
 
 		/*if (  (((PlayerPosition.position.y) >= (8)) && !doubleJump ) || (up<= 0) || ( ((PlayerPosition.position.y) >= (11)) && doubleJump  ) ) 
 		 */
-		if( PlayerPosition.position.y >= (2+ InitialPositionY))
+		if( (PlayerPosition.position.y >= (2+ InitialPositionY)) || (upCount>=1) )
 		{
 			IsGoingUp = false; 
 			up =1 * speed;
+			upCount =0 ;
 			IsGoingDown = true; 
 
 		} else 
@@ -143,6 +156,7 @@ public class CharacterController : MonoBehaviour {
 			up -= 0.005f;
 			if (up <= 0) 
 			{
+				upCount +=1 ;
 				up = 0.01f;
 			}
 			PlayerPosition.Translate(Up);
