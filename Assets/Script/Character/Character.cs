@@ -30,7 +30,7 @@ public class Character : MonoBehaviour {
 	{
 		//initilise le text affiché
 		LifeText = Text.GetComponent <Text>();
-        Life = 10;
+        Life_ = 10;
 		//initialisation tableau d'item
 		for (int i = 0; i < 10; i++)
 		{
@@ -43,7 +43,7 @@ public class Character : MonoBehaviour {
 	void Update () 
 	{
 		//affiche la somme du player
-		LifeText.text = Life.ToString();
+		LifeText.text = Life_.ToString();
 	}
 
 	

@@ -12,7 +12,9 @@ public class CharacterController : MonoBehaviour {
 	private bool IsGoingDown = false;
 	private bool IsGoingLeft = false;
 	private bool IsGoingRight = false;
+	private bool iClimbing = false;
 	float InitialPositionZ= 0;
+	float InitialPositionY= 0;
 
 	// Use this for initialization
 	void Start () 
@@ -21,12 +23,36 @@ public class CharacterController : MonoBehaviour {
 		down = 0;
 	}
 
+
+	public bool isClimbing_ { get; set; }
 	// Update is called once per frame
 	void Update () 
 	{
-		
-		if (Input.GetButtonDown ("Jump") && !IsGoingDown )
+		RaycastHit hit;
+		if (Physics.Raycast (transform.position, -Vector3.up, out hit, 100.0f)) 
 		{
+			if (hit.distance < 0.6f) 
+			{
+				down = 0;
+				IsGoingDown = false;
+				InitialPositionY = PlayerPosition.position.y;
+				Vector3 Adjustment = new Vector3 (0, 0.1f, 0);
+				PlayerPosition.Translate( Adjustment);
+
+			}
+
+
+			if (hit.distance > 1 && !IsGoingUp) 
+			{
+				IsGoingDown = true;
+			}
+				
+		}
+
+		
+		if (Input.GetButtonDown ("Jump") && !IsGoingDown)
+		{
+			
 			IsGoingUp = true;
 
 		}
@@ -70,7 +96,7 @@ public class CharacterController : MonoBehaviour {
 
 		/*if (  (((PlayerPosition.position.y) >= (8)) && !doubleJump ) || (up<= 0) || ( ((PlayerPosition.position.y) >= (11)) && doubleJump  ) ) 
 		 */
-		if( PlayerPosition.position.y >= 2.5)
+		if( PlayerPosition.position.y >= (2+ InitialPositionY))
 		{
 			IsGoingUp = false; 
 			up =1 * speed;
@@ -92,7 +118,7 @@ public class CharacterController : MonoBehaviour {
 	void GoingDown()
 	{
 		Vector3 Down = new Vector3 (0, down, 0);
-		if ((PlayerPosition.position.y) <= (0.5f)) 
+		/*if ((PlayerPosition.position.y) <= (0.5f+InitialPositionY)) 
 		{
 			PlayerPosition.position= new Vector3 (0,0.5f,InitialPositionZ) ;
 			down = 0;
@@ -101,13 +127,15 @@ public class CharacterController : MonoBehaviour {
 		{
 			down -= 0.01f;
 			PlayerPosition.Translate(Down);
-		}
+		}*/
+		down -= 0.01f;
+		PlayerPosition.Translate(Down);
 
 	}
 	void GoingLeft()
 	{
 
-		Vector3 Left = new Vector3 (0, 0, speed);
+		Vector3 Left = new Vector3 (0, 0, 0.15f);
 		if( PlayerPosition.position.z >= (InitialPositionZ+2) )
 				{
 					IsGoingLeft= false; 
