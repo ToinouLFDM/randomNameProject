@@ -48,7 +48,30 @@ public class CharacterController : MonoBehaviour {
 			}
 				
 		}
+		RaycastHit hit2;
+		if (Physics.Raycast (transform.position, -Vector3.left, out hit2, 100.0f)) 
+		{
+			
+			if (hit2.distance <= 0.5f && IsGoingLeft)
+			{
+				Debug.Log ("yoloy");
+				IsGoingLeft = false;
+				Vector3 Adjustment = new Vector3 (0, InitialPositionY, InitialPositionZ);
+				PlayerPosition.position = Adjustment;
+			}
+		}
+		RaycastHit hit3;
+		if (Physics.Raycast (transform.position, -Vector3.right, out hit3, 100.0f)) 
+		{
 
+			if (hit3.distance <= 0.5f && IsGoingRight)
+			{
+				Debug.Log ("yoloy");
+				IsGoingRight = false;
+				Vector3 Adjustment = new Vector3 (0, InitialPositionY, InitialPositionZ);
+				PlayerPosition.position = Adjustment;
+			}
+		}
 		
 		if (Input.GetButtonDown ("Jump") && !IsGoingDown)
 		{
@@ -134,8 +157,9 @@ public class CharacterController : MonoBehaviour {
 	}
 	void GoingLeft()
 	{
+		
 
-		Vector3 Left = new Vector3 (0, 0, 0.15f);
+		Vector3 Left = new Vector3 (0, 0, speed);
 		if( PlayerPosition.position.z >= (InitialPositionZ+2) )
 				{
 					IsGoingLeft= false; 
@@ -148,6 +172,7 @@ public class CharacterController : MonoBehaviour {
 			
 			PlayerPosition.Translate(Left);
 			}
+
 
 	}
 	void GoingRight()
