@@ -24,31 +24,44 @@ public class CharacterController : MonoBehaviour {
 	}
 
 
-	public bool isClimbing_ { get; set; }
+	public bool isInObstacle_ { get; set; }
 	// Update is called once per frame
 	void Update () 
 	{
+		
 		RaycastHit hit;
 		if (Physics.Raycast (transform.position, -Vector3.up, out hit, 100.0f)) 
 		{
+			//the postion in y of the terrain under the player
+			InitialPositionY = hit.point.y + 0.5f;
+			//if the distance beetwen the plyayer and an objest is too small then stop the player to going down
 			if (hit.distance < 0.6f) 
 			{
 				down = 0;
 				IsGoingDown = false;
-				InitialPositionY = PlayerPosition.position.y;
 				Vector3 Adjustment = new Vector3 (0, 0.1f, 0);
 				PlayerPosition.Translate( Adjustment);
 
 			}
 
-
+			//if the distance between the player and an object is too big then going down the player
 			if (hit.distance > 1 && !IsGoingUp) 
 			{
 				IsGoingDown = true;
 			}
 				
 		}
-		RaycastHit hit2;
+		//if  the player collider encounter an object collider then reajust this position
+		if (isInObstacle_) 
+		{
+			isInObstacle_ = false;
+			IsGoingLeft = false;
+			IsGoingRight = false;
+			Vector3 Adjustment = new Vector3 (0, InitialPositionY, InitialPositionZ);
+			PlayerPosition.position = Adjustment;
+		}
+		//Raycast for object left and right of the player
+		/*RaycastHit hit2;
 		if (Physics.Raycast (transform.position, -Vector3.left, out hit2, 100.0f)) 
 		{
 			
@@ -72,7 +85,7 @@ public class CharacterController : MonoBehaviour {
 				PlayerPosition.position = Adjustment;
 			}
 		}
-		
+		*/
 		if (Input.GetButtonDown ("Jump") && !IsGoingDown)
 		{
 			
