@@ -59,7 +59,7 @@ public class SpawnField : MonoBehaviour {
 
 		
 		}
-		if (count >= 9) 
+		if (count >= Random.Range(6,9)) 
 		{
 
 
@@ -81,7 +81,7 @@ public class SpawnField : MonoBehaviour {
 				SpawnRandomObstacle (3);
 			}
 		
-			Debug.Log (" down");
+
 		}
 
 			
@@ -99,16 +99,16 @@ public class SpawnField : MonoBehaviour {
 		{
 		case 1:
 			SpawnPositionZ = -2.0f;
-			SpawnPositionY =(staticNonGenericPostion [1] == true)?2f:0 ;
+			//SpawnPositionY =(staticNonGenericPostion [1] == true)?2f:0 ;
 			break;
 		case 2:
 			SpawnPositionZ = 0.0f;
-			SpawnPositionY =(staticNonGenericPostion [2] == true)?2f:0 ;
+			//SpawnPositionY =(staticNonGenericPostion [2] == true)?2f:0 ;
 
 			break;
 		case 3:
 			SpawnPositionZ = 2.0f;
-			SpawnPositionY =(staticNonGenericPostion [3] == true)?2f:0 ;
+			//SpawnPositionY =(staticNonGenericPostion [3] == true)?2f:0 ;
 
 			break;
 		default:
@@ -121,11 +121,11 @@ public class SpawnField : MonoBehaviour {
 
 
 		// defeni la postion du spawn de l'obastacle en fct de sa taille et aléatoirement sur  x 
-		Vector3 NewSpawn = new Vector3 (Spawn.x - (Random.Range (1f, 4f)), SpawnPositionY +(float)0.375f, SpawnPositionZ);
+		Vector3 NewSpawn = new Vector3 (Spawn.x - (Random.Range (1f, 4f)), 10, SpawnPositionZ);
 		//Obstacle.transform.localScale = Scale;
 		int randomBox =Random.Range(1,7);
 		if (randomBox == 1) {
-			 NewSpawn = new Vector3 (Spawn.x - (Random.Range (1f, 4f)), SpawnPositionY +(float)0.75f, SpawnPositionZ);
+			 NewSpawn = new Vector3 (Spawn.x - (Random.Range (1f, 4f)), 10, SpawnPositionZ);
 			Instantiate (MysteryBox, NewSpawn, TerrainTransform.rotation);
 		} else 
 		{
@@ -173,7 +173,7 @@ public class SpawnField : MonoBehaviour {
 			break;
 		}
 		// defeni la postion du spawn de l'obastacle en fct de sa taille et aléatoirement sur  x 
-		Vector3 NewSpawn = new Vector3 (Spawn.x , 0, SpawnPositionZ);
+		Vector3 NewSpawn = new Vector3 (Spawn.x+18 , 0, SpawnPositionZ);
 		//Obstacle.transform.localScale = Scale;
 		Instantiate (ObstacleStaticNonGeneric, NewSpawn, TerrainTransform.rotation);
 	}

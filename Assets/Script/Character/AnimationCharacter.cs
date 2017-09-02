@@ -75,6 +75,7 @@ public class AnimationCharacter : MonoBehaviour {
 			
 			countTranslate = 0;
 
+
 			}
 	}
 }

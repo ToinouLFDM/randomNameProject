@@ -15,21 +15,28 @@ public class MoveField : MonoBehaviour {
 	{
         isItem = gameObject.GetComponent<Malus>() != null || gameObject.GetComponent<Bonus>() != null;
         Debug.Log(isItem);
+
+
+    }
+	
+	// Update is called once per frame
+	void Update () 
+	{
 		//Reajust the position in y of the obstacle
 		RaycastHit hit;
 		if (Physics.Raycast (transform.position, -Vector3.up, out hit, 100.0f)) 
 		{
-			
-			InitialPositionY = hit.point.y + 0.5f;
 
-			if (hit.distance < 0.6f) 
+
+			if (hit.distance < 0.375f) 
 			{
 				down = 0;
 				IsGoingDown = false;
 				Vector3 Adjustment = new Vector3 (0, 0.1f, 0);
-				FieldPosition.Translate( Adjustment);
+				FieldPosition.Translate (Adjustment);
 
 			}
+				
 
 			//if the distance between the player and an object is too big then going down the player
 			if (hit.distance > 1 ) 
@@ -39,11 +46,7 @@ public class MoveField : MonoBehaviour {
 			}
 
 		}
-    }
-	
-	// Update is called once per frame
-	void Update () 
-	{
+
 		Vector3 translate = new Vector3 (-speed, 0, 0);
 		FieldPosition.Translate(translate);
 
@@ -59,7 +62,7 @@ public class MoveField : MonoBehaviour {
 	void GoingDown()
 	{
 		Vector3 Down = new Vector3 (0, down, 0);
-		down -= 0.01f;
+		down =-0.2f;
 		FieldPosition.Translate(Down);
 
 	}
