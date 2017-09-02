@@ -125,6 +125,7 @@ public class SpawnField : MonoBehaviour {
 		//Obstacle.transform.localScale = Scale;
 		int randomBox =Random.Range(1,7);
 		if (randomBox == 1) {
+			 NewSpawn = new Vector3 (Spawn.x - (Random.Range (1f, 4f)), SpawnPositionY +(float)0.75f, SpawnPositionZ);
 			Instantiate (MysteryBox, NewSpawn, TerrainTransform.rotation);
 		} else 
 		{
