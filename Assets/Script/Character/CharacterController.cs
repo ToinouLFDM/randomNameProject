@@ -49,7 +49,7 @@ public class CharacterController : MonoBehaviour {
 				IsGoingDown = false;
 				Vector3 Adjustment = new Vector3 (0, 0.1f, 0);
 				PlayerPosition.Translate( Adjustment);
-
+				GetComponentInChildren<AnimationCharacter> ().Is_Moving= false;
 			}
 
 			//if the distance between the player and an object is too big then going down the player
@@ -67,6 +67,7 @@ public class CharacterController : MonoBehaviour {
 			IsGoingLeft = false;
 			IsGoingUp = false;
 			IsGoingRight = false;
+			GetComponentInChildren<AnimationCharacter> ().Is_Moving= false;
 			up =1 * speed;
 			upCount =0 ;
 			Vector3 Adjustment = new Vector3 (0, InitialPositionY, InitialPositionZ);
@@ -102,18 +103,19 @@ public class CharacterController : MonoBehaviour {
 		{
 			up =1 * speed;
 			IsGoingUp = true;
-
+			GetComponentInChildren<AnimationCharacter> ().Is_Moving= true;
+			GetComponentInChildren<AnimationCharacter> ().Is_Jumping= true;
 		}
 		if (Input.GetButtonDown ("SideLeft") && !IsGoingRight && (InitialPositionZ<2))
 		{
 			
 			IsGoingLeft = true;
-
+			GetComponentInChildren<AnimationCharacter> ().Is_Moving= true;
 		}
 		if (Input.GetButtonDown ("SideRight") && !IsGoingLeft && (InitialPositionZ>-2))
 		{
 			IsGoingRight = true;
-
+			GetComponentInChildren<AnimationCharacter> ().Is_Moving= true;
 		}
 
 		if (IsGoingUp) 
@@ -146,6 +148,8 @@ public class CharacterController : MonoBehaviour {
 		 */
 		if( (PlayerPosition.position.y >= (2+ InitialPositionY)) || (upCount>=1) )
 		{
+			GetComponentInChildren<AnimationCharacter> ().Is_Jumping= false;
+			GetComponentInChildren<AnimationCharacter> ().initRotation(PlayerPosition.transform.position.y,PlayerPosition.transform.position.z);
 			IsGoingUp = false; 
 			up =1 * speed;
 			upCount =0 ;
@@ -167,6 +171,7 @@ public class CharacterController : MonoBehaviour {
 
 	void GoingDown()
 	{
+		GetComponentInChildren<AnimationCharacter> ().Is_Moving= true;
 		Vector3 Down = new Vector3 (0, down, 0);
 		/*if ((PlayerPosition.position.y) <= (0.5f+InitialPositionY)) 
 		{
@@ -191,7 +196,7 @@ public class CharacterController : MonoBehaviour {
 				{
 					IsGoingLeft= false; 
 					InitialPositionZ += 2;
-
+					GetComponentInChildren<AnimationCharacter> ().Is_Moving= false;
 				}
 		
 			 else 
@@ -209,7 +214,7 @@ public class CharacterController : MonoBehaviour {
 		{
 			IsGoingRight= false; 
 			InitialPositionZ -= 2;
-
+			GetComponentInChildren<AnimationCharacter> ().Is_Moving= false;
 		}
 
 		else 

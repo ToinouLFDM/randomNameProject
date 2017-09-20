@@ -6,26 +6,51 @@ public class AnimationCharacter : MonoBehaviour {
 
 
 	public Transform AnimationTransform;
+	Quaternion animationTransformInitQ;
+	Vector3 animationTransformInitV;
+
 	[SerializeField]
 	private float speed;
 	[SerializeField]
 	private float speed2;
 	int countRotate = 0;
 	int countTranslate;
+	float countRotateJump = 0;
+	public bool Is_Moving { get; set; }
+	public bool Is_Jumping { get; set; }
 	// Use this for initialization
 	void Start () 
 	{
-		
+		//animationTransformInitQ = AnimationTransform.transform.rotation ();
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () 
 	{
-		rotate ();
-		Translate ();
-	}
+		if (!Is_Moving) 
+		{
+			rotateBase ();
+			translateBase ();
 
-	void rotate()
+		}
+		if (Is_Jumping) 
+		{
+			Jumping();
+
+		}
+
+
+	}
+	public void initRotation(float y, float z)
+	{
+		animationTransformInitQ = new Quaternion (0, 0, 0, 0);
+		animationTransformInitV = new Vector3 (0,y +0.5f , z);
+		AnimationTransform.transform.rotation = animationTransformInitQ;
+		AnimationTransform.transform.position = animationTransformInitV;
+		countRotate = 0;
+	}
+	void rotateBase()
 	{
 		if (countRotate < 10*speed2) 
 		{
@@ -58,7 +83,7 @@ public class AnimationCharacter : MonoBehaviour {
 		}
 
 	}
-	void Translate()
+	void translateBase()
 	{
 		if (AnimationTransform.position.y <= 0.5f) 
 		{
@@ -84,5 +109,10 @@ public class AnimationCharacter : MonoBehaviour {
 
 
 			}
+	}
+	void Jumping()
+	{
+		AnimationTransform.transform.Rotate (0,0 ,-200f * speed, Space.World);
+		countRotateJump += 200 * speed;
 	}
 }

@@ -39,7 +39,7 @@ public class Character : MonoBehaviour {
 		//initialisation tableau d'item
 		for (int i = 0; i < 10; i++)
 		{
-			Item [i] = false;
+			//Item [i] = false;
 		}
 
 	}
