@@ -68,6 +68,10 @@ public class CharacterController : MonoBehaviour {
 			IsGoingUp = false;
 			IsGoingRight = false;
 			GetComponentInChildren<AnimationCharacter> ().Is_Moving= false;
+			GetComponentInChildren<AnimationCharacter> ().Is_Jumping= false;
+			GetComponentInChildren<AnimationCharacter> ().Is_Going_Left= false;
+			GetComponentInChildren<AnimationCharacter> ().Is_Going_Right= false;
+			GetComponentInChildren<AnimationCharacter> ().initRotation(PlayerPosition.transform.position.y,PlayerPosition.transform.position.z);
 			up =1 * speed;
 			upCount =0 ;
 			Vector3 Adjustment = new Vector3 (0, InitialPositionY, InitialPositionZ);
@@ -105,15 +109,24 @@ public class CharacterController : MonoBehaviour {
 			IsGoingUp = true;
 			GetComponentInChildren<AnimationCharacter> ().Is_Moving= true;
 			GetComponentInChildren<AnimationCharacter> ().Is_Jumping= true;
+			GetComponentInChildren<AnimationCharacter> ().Is_Going_Left= false;
+			GetComponentInChildren<AnimationCharacter> ().Is_Going_Right= false;
 		}
 		if (Input.GetButtonDown ("SideLeft") && !IsGoingRight && (InitialPositionZ<2))
 		{
-			
+			GetComponentInChildren<AnimationCharacter> ().Is_Moving= true;
+			GetComponentInChildren<AnimationCharacter> ().Is_Jumping= false;
+			GetComponentInChildren<AnimationCharacter> ().Is_Going_Left= true;
+			GetComponentInChildren<AnimationCharacter> ().initRotation(PlayerPosition.transform.position.y,PlayerPosition.transform.position.z);
 			IsGoingLeft = true;
 			GetComponentInChildren<AnimationCharacter> ().Is_Moving= true;
 		}
 		if (Input.GetButtonDown ("SideRight") && !IsGoingLeft && (InitialPositionZ>-2))
 		{
+			GetComponentInChildren<AnimationCharacter> ().Is_Moving= true;
+			GetComponentInChildren<AnimationCharacter> ().Is_Jumping= false;
+			GetComponentInChildren<AnimationCharacter> ().Is_Going_Right= true;
+			GetComponentInChildren<AnimationCharacter> ().initRotation(PlayerPosition.transform.position.y,PlayerPosition.transform.position.z);
 			IsGoingRight = true;
 			GetComponentInChildren<AnimationCharacter> ().Is_Moving= true;
 		}
@@ -189,13 +202,15 @@ public class CharacterController : MonoBehaviour {
 	}
 	void GoingLeft()
 	{
-		
+		GetComponentInChildren<AnimationCharacter> ().Is_Going_Left= true;
 
 		Vector3 Left = new Vector3 (0, 0, speed);
 		if( PlayerPosition.position.z >= (InitialPositionZ+2) )
 				{
 					IsGoingLeft= false; 
 					InitialPositionZ += 2;
+					GetComponentInChildren<AnimationCharacter> ().initRotation(PlayerPosition.transform.position.y,PlayerPosition.transform.position.z);
+					GetComponentInChildren<AnimationCharacter> ().Is_Going_Left= false;
 					GetComponentInChildren<AnimationCharacter> ().Is_Moving= false;
 				}
 		
@@ -209,11 +224,14 @@ public class CharacterController : MonoBehaviour {
 	}
 	void GoingRight()
 	{
+		GetComponentInChildren<AnimationCharacter> ().Is_Going_Right= true;
 		Vector3 Right = new Vector3 (0, 0, -speed);
 		if( PlayerPosition.position.z <= (InitialPositionZ-2) )
 		{
 			IsGoingRight= false; 
 			InitialPositionZ -= 2;
+			GetComponentInChildren<AnimationCharacter> ().initRotation(PlayerPosition.transform.position.y,PlayerPosition.transform.position.z);
+			GetComponentInChildren<AnimationCharacter> ().Is_Going_Right= false;
 			GetComponentInChildren<AnimationCharacter> ().Is_Moving= false;
 		}
 

@@ -18,6 +18,8 @@ public class AnimationCharacter : MonoBehaviour {
 	float countRotateJump = 0;
 	public bool Is_Moving { get; set; }
 	public bool Is_Jumping { get; set; }
+	public bool Is_Going_Left { get; set; }
+	public bool Is_Going_Right { get; set; }
 	// Use this for initialization
 	void Start () 
 	{
@@ -28,6 +30,20 @@ public class AnimationCharacter : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		RaycastHit hit;
+
+		if (Physics.Raycast (transform.position, -Vector3.up, out hit, 100.0f)) 
+		{
+			if ( (hit.distance < 0f) && (hit.collider.tag == "Field") ) 
+			{
+				
+				Vector3 Adjustment = new Vector3 (0, 0.25f, 0);
+				AnimationTransform.Translate( Adjustment);
+				GetComponentInChildren<AnimationCharacter> ().Is_Moving= false;
+			}
+		}
+
+
 		if (!Is_Moving) 
 		{
 			rotateBase ();
@@ -37,6 +53,16 @@ public class AnimationCharacter : MonoBehaviour {
 		if (Is_Jumping) 
 		{
 			Jumping();
+
+		}
+		if(Is_Going_Left) 
+		{
+			Goinigleft();
+
+		}
+		if(Is_Going_Right) 
+		{
+			GoinigRight();
 
 		}
 
@@ -112,7 +138,19 @@ public class AnimationCharacter : MonoBehaviour {
 	}
 	void Jumping()
 	{
-		AnimationTransform.transform.Rotate (0,0 ,-200f * speed, Space.World);
-		countRotateJump += 200 * speed;
+		AnimationTransform.transform.Rotate (0,0 ,-250f * speed, Space.World);
+		countRotateJump += 50 * speed;
+	}
+	void Goinigleft()
+	{
+		
+		AnimationTransform.transform.Rotate (250f * speed,0,0, Space.World);
+		countRotateJump += 50 * speed;
+	}
+	void GoinigRight()
+	{
+
+		AnimationTransform.transform.Rotate (-250f * speed,0,0, Space.World);
+		countRotateJump += 50 * speed;
 	}
 }
