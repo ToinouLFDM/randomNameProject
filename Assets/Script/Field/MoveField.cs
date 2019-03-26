@@ -14,7 +14,7 @@ public class MoveField : MonoBehaviour {
 	void Start () 
 	{
         isItem = gameObject.GetComponent<Malus>() != null || gameObject.GetComponent<Bonus>() != null;
-        Debug.Log(isItem);
+        //Debug.Log(isItem);
 
 
     }

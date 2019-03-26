@@ -7,9 +7,12 @@ public class Malus : MonoBehaviour {
 
     float bonusDuration;
     int type;
+
+   
 	// Use this for initialization
 	void Start () {
-        type = 2;   //0 => x2, 1 => speed, 2 => Blind
+        type = Random.Range(0,2);
+        //0 => x2, 1 => speed, 2 => Blind
     }
 	
 	// Update is called once per frame
@@ -26,16 +29,19 @@ public class Malus : MonoBehaviour {
         {
             case 0:
                 bonusDuration = 10f;
-                StartCoroutine(myPlayer.handleMalus(bonusDuration, gameObject, 0));
+                myPlayer.handleMalus(bonusDuration,gameObject, type);
                 break;
             case 1:
                 bonusDuration = 10f;
-                StartCoroutine(myPlayer.handleMalus(bonusDuration,gameObject, 1));
+                myPlayer.handleMalus(bonusDuration,gameObject, type);
                 break;
             case 2:
                 bonusDuration = 10f;
-                StartCoroutine(myPlayer.handleMalus(bonusDuration, gameObject, 2));
+                myPlayer.handleMalus(bonusDuration,gameObject, type);
                 break;
         }
+        Destroy(gameObject);
+
     }
+    
 }

@@ -16,6 +16,6 @@ public class AnimationMysteryBox : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		AnimationTransform.Rotate(speed,speed,speed,Space.World);
+		AnimationTransform.Rotate(speed,speed,speed,Space.Self);
 	}
 }

@@ -39,7 +39,7 @@ public class Obstacle : MonoBehaviour {
     void OnTriggerEnter(Collider player)
     {
         Character myPlayer = player.GetComponent<Character>();
-        if (myPlayer.isX2_)
+        if (myPlayer.isX2)
             Life *= 2;
         myPlayer.Life_ = (obstacleType == 0) ? myPlayer.Life_ - Life :  myPlayer.Life_ / 2;
         Destroy(gameObject);

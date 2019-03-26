@@ -65,19 +65,53 @@ public class AnimationCharacter : MonoBehaviour {
 			GoinigRight();
 
 		}
-
-
+        //BugFixe Animation 
+        /*
+        if (AnimationTransform.position.y>1){
+            AnimationTransform.position = new Vector3(AnimationTransform.position.x,1,AnimationTransform.position.z);
+        }
+        else if (AnimationTransform.position.y<0){
+            AnimationTransform.position = new Vector3(AnimationTransform.position.x, 0, AnimationTransform.position.z);
+        }
+        */
 	}
 	public void initRotation(float y, float z)
 	{
 		animationTransformInitQ = new Quaternion (0, 0, 0, 0);
-		animationTransformInitV = new Vector3 (0,y +0.5f , z);
+		animationTransformInitV = new Vector3 (0,y+0.1f , z);
 		AnimationTransform.transform.rotation = animationTransformInitQ;
 		AnimationTransform.transform.position = animationTransformInitV;
-		countRotate = 0;
+		countRotate = 2;
 	}
-	void rotateBase()
-	{
+	void rotateBase() {
+
+
+
+        if (countRotate <2)
+        {
+            AnimationTransform.Rotate(0, 0, -4);
+        }
+        else if (countRotate >1)
+        {
+            AnimationTransform.Rotate(0, 0, 4);
+        }
+        if (AnimationTransform.localRotation.z>=0.30f) {
+            countRotate = 0;
+            
+        }
+        else if(AnimationTransform.localRotation.z<0 && countRotate==0)
+        {
+            countRotate = 1;
+        }
+        else if(AnimationTransform.localRotation.z> 0 &&countRotate==3) {
+            countRotate = 2;
+        }
+        else if(AnimationTransform.localRotation.z<=-0.30f)
+        {
+            countRotate = 3;
+        }
+        
+        /*
 		if (countRotate < 10*speed2) 
 		{
 			countRotate += 1;
@@ -107,22 +141,47 @@ public class AnimationCharacter : MonoBehaviour {
 		{
 			countRotate = 0;
 		}
-
+        */
 	}
 	void translateBase()
 	{
+
+        
+        if(countRotate == 1 && AnimationTransform.localPosition.y > 0.1f)
+        {
+            Vector3 down = new Vector3(0, -0.01f, 0);
+            AnimationTransform.Translate(down, Space.World);
+        }
+        if (countRotate == 3 && AnimationTransform.localPosition.y > 0.10f)
+        {
+            Vector3 down = new Vector3(0, -0.03f, 0);
+            AnimationTransform.Translate(down, Space.World);
+        }
+        if (countRotate == 2 && AnimationTransform.localPosition.y>0.1f)
+        {
+            Vector3 down = new Vector3(0, -0.04f, 0);
+            AnimationTransform.Translate(down, Space.World);
+        }
+
+        if (countRotate == 0 && AnimationTransform.localPosition.y < 1.5f)
+        {
+            Vector3 up = new Vector3(0, 0.08f, 0);
+            AnimationTransform.Translate(up, Space.World);
+        }
+        /*
 		if (AnimationTransform.position.y <= 0.5f) 
 		{
 			Vector3 up = new Vector3 (0, 0.5f, 0);
 			AnimationTransform.Translate (up);
-		}
-		if (countTranslate < 10*speed2) 
+            countTranslate += 1;
+        }
+		else if (countTranslate < 10*speed2) 
 		{
 			Vector3 up = new Vector3 (0, speed * 1, 0);
 			countTranslate += 1;
 			AnimationTransform.Translate (up);
 		}
-		if (countTranslate < 20*speed2 && countTranslate >=10*speed2)
+		else if (countTranslate < 20*speed2 && countTranslate >=10*speed2)
 		{
 			countTranslate += 1;
 			Vector3 down = new Vector3 (0, -speed * 1, 0);
@@ -135,22 +194,24 @@ public class AnimationCharacter : MonoBehaviour {
 
 
 			}
+        */
 	}
 	void Jumping()
 	{
-		AnimationTransform.transform.Rotate (0,0 ,-250f * speed, Space.World);
+     
+		AnimationTransform.transform.Rotate (0,0 ,-250f * speed);
 		countRotateJump += 50 * speed;
 	}
 	void Goinigleft()
 	{
-		
-		AnimationTransform.transform.Rotate (250f * speed,0,0, Space.World);
+
+        AnimationTransform.transform.Rotate (250f * speed,0,0);
 		countRotateJump += 50 * speed;
 	}
 	void GoinigRight()
 	{
-
-		AnimationTransform.transform.Rotate (-250f * speed,0,0, Space.World);
+       
+        AnimationTransform.transform.Rotate (-250f * speed,0,0);
 		countRotateJump += 50 * speed;
 	}
 }
