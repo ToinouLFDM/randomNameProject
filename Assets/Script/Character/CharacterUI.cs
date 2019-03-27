@@ -19,6 +19,10 @@ public class CharacterUI : MonoBehaviour
     private GameObject textScoreGO;
     private Text scoreText;
 
+    //gameobject particle pour l'effet blind
+    [SerializeField]
+    private GameObject blindParticle;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,8 +36,10 @@ public class CharacterUI : MonoBehaviour
     {
         updateBuff();
         updateScore();
+        updateBlind();
     }
 
+    //fonction utilisé pour affciher le score du joueur
     private void updateScore() {
         scoreText.text = myPlayer.getScore().ToString();
     }
@@ -55,6 +61,17 @@ public class CharacterUI : MonoBehaviour
             affichage += " Faster:" + (System.Math.Round((myPlayer.getTimeFaster() - Time.time),0));
         }
         textBuff.text = affichage;
+    }
+
+    private void updateBlind() {
+        if(myPlayer.isBlind) {
+            blindParticle.SetActive(true);
+        }
+        else
+        {
+            blindParticle.SetActive(false);
+        }
+
     }
 
 

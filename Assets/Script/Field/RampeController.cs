@@ -13,7 +13,14 @@ public class RampeController : MonoBehaviour {
 	void OnTriggerEnter(Collider player)
 	{
 		player.GetComponent<CharacterController> ().isInObstacle_ = true;
-		player.GetComponent<Character>().Life_/=2;
+        if (player.GetComponent<CharacterController>().getIsGoingLeft() || player.GetComponent<CharacterController>().getIsGoingRight())
+            player.GetComponent<Character>().Life_/=2;
 	}
+    void OnTriggerStay(Collider player)
+    {
+        player.GetComponent<CharacterController>().isInObstacle_ = true;
+        
+    }
+
 
 }

@@ -10,9 +10,18 @@ public class MoveField : MonoBehaviour {
 	private bool IsGoingDown = false;
 	float InitialPositionY= 0;
 	private float down = 0;
+
+    private Character myPlayer;
 	// Use this for initialization
 	void Start () 
 	{
+        foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject))) {
+            if (obj.gameObject.GetComponentInChildren<Character>())
+            {
+                myPlayer = obj.GetComponentInChildren<Character>();
+            }
+        }
+           
         isItem = gameObject.GetComponent<Malus>() != null || gameObject.GetComponent<Bonus>() != null;
         //Debug.Log(isItem);
 
@@ -46,9 +55,14 @@ public class MoveField : MonoBehaviour {
 			}
 
 		}
-
-		Vector3 translate = new Vector3 (-speed, 0, 0);
-		FieldPosition.Translate(translate);
+        Vector3 translate = new Vector3(-speed, 0, 0);
+        if (myPlayer.isFaster)
+        {
+            translate = new Vector3(-speed * 2, 0, 0);
+            Debug.Log("yolo");
+        }
+		    
+        FieldPosition.Translate(translate);
 
 		if (FieldPosition.position.x <= -30 && !isItem) 
 		{

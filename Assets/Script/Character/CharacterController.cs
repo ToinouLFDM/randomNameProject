@@ -17,6 +17,14 @@ public class CharacterController : MonoBehaviour {
 	float InitialPositionZ= 0;
 	float InitialPositionY= 0;
 
+
+    public bool getIsGoingLeft () {
+        return IsGoingLeft;
+    }
+    public bool getIsGoingRight () {
+        return IsGoingRight;
+    }
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -38,6 +46,7 @@ public class CharacterController : MonoBehaviour {
 			if (hit.collider.tag == "Field") 
 			{
 				InitialPositionY = hit.point.y + 0.5f;
+                
 			}
 			//if the distance beetwen the player and an objest is too small then stop the player to going down
 			if ( (hit.distance < 0.6f) && (hit.collider.tag == "Field") ) 
@@ -50,7 +59,8 @@ public class CharacterController : MonoBehaviour {
 				Vector3 Adjustment = new Vector3 (0, 0.1f, 0);
 				PlayerPosition.Translate( Adjustment);
 				GetComponentInChildren<AnimationCharacter> ().Is_Moving= false;
-			}
+                
+            }
 
 			//if the distance between the player and an object is too big then going down the player
 			if ( (hit.distance > 1) && !IsGoingUp  && (hit.collider.tag == "Field") ) 
