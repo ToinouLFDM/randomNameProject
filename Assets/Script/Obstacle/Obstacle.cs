@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Obstacle : MonoBehaviour {
 
@@ -15,8 +16,8 @@ public class Obstacle : MonoBehaviour {
     private int obstacleType;
     public int obstacleType_{ get; set; }        //0 => generic, 1 ==> ungeneric
 
-	//variable pour afficher le texte
-	Text LifeText;
+    //variable pour afficher le texte
+    TMPro.TextMeshProUGUI LifeText;
 	public GameObject Text;
     private Character myPlayer;
 
@@ -32,11 +33,12 @@ public class Obstacle : MonoBehaviour {
             }
         }
         //initilise le text affiché
-        LifeText = Text.GetComponent <Text>();
+        LifeText = Text.GetComponent <TMPro.TextMeshProUGUI>();
 		//initilise aléatoirement la valeur de l'obstacle
 		Life = Random.Range(1,5);
         obstacleType = Random.Range(0, 1);
         int tempLife = Life;
+        LifeText.color = new Color(255, 0, 0);
     }
 	
 	// Update is called once per frame

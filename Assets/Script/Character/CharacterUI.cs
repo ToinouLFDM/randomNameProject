@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class CharacterUI : MonoBehaviour
     //variable Texte d'affichage
     
 
+    //varaible Image 
     [SerializeField]
     private Image buffFaster;
     
@@ -25,20 +27,42 @@ public class CharacterUI : MonoBehaviour
     [SerializeField]
     private Image buffSlower;
 
+    //variable transform Image
+    [SerializeField]
+    private RectTransform fBuffRect;
+    [SerializeField]
+    private RectTransform sBuffRect;
+    [SerializeField]
+    private RectTransform pBuffRect;
+    [SerializeField]
+    private RectTransform bBuffRect;
+    [SerializeField]
+    private RectTransform xBuffRect;
+
+
+
 
     [SerializeField]
     private GameObject textScoreGO;
-    private Text scoreText;
+    private TMPro.TextMeshProUGUI scoreText;
 
     //gameobject particle pour l'effet blind
     [SerializeField]
     private GameObject blindParticle;
 
+
+    public List<string> listBuff;
+    
+
     // Start is called before the first frame update
     void Start()
     {
+
         myPlayer = GetComponent<Character>();
-        scoreText = textScoreGO.GetComponent<Text>();
+        if (textScoreGO.GetComponent<TextMeshPro>())
+            Debug.Log("yolo");
+        scoreText = textScoreGO.GetComponent<TextMeshProUGUI>();
+        
        
         
 
@@ -57,16 +81,41 @@ public class CharacterUI : MonoBehaviour
 
 
     }
+    public void updatePositionBuffDelete(string Type) {
+        listBuff.Remove(Type);
+        updatePositionBuff();
 
+    }
+    public void updatePositionBuffAdd(string Type) {
+        
+        listBuff.Add(Type);
+        updatePositionBuff();
+        
+        
+    }
+    public void updatePositionBuff()
+    {
+        Debug.Log( listBuff.ToString());
+        if (myPlayer.isX2)
+            xBuffRect.localPosition = new Vector3(-50 * (listBuff.Count-1-listBuff.IndexOf("X2"))+100,0,0);
+        if (myPlayer.isBlind)
+            bBuffRect.localPosition = new Vector3(-50 * (listBuff.Count - 1 - listBuff.IndexOf("Blind")) + 100, 0, 0);
+        if (myPlayer.isFaster)
+            fBuffRect.localPosition = new Vector3(-50 * (listBuff.Count - 1 - listBuff.IndexOf("Faster")) + 100, 0, 0);
+        if (myPlayer.isSlower)
+            sBuffRect.localPosition = new Vector3(-50 * (listBuff.Count - 1 - listBuff.IndexOf("Slower")) + 100, 0, 0);
+        if (myPlayer.isPositiv)
+            pBuffRect.localPosition = new Vector3(-50 * (listBuff.Count - 1 - listBuff.IndexOf("Positiv")) + 100, 0, 0);
+    }
     //fonction utilisé pour affciher le score du joueur
     private void updateScore() {
         scoreText.text = myPlayer.getScore().ToString();
     }
 
-    //fonction appelé toute les frames pour actualiser le temps restant des buffs présent sur le joueur
-    
 
 
+
+    //fonctions appelé toute les frames pour actualiser le temps restant des buffs présent sur le joueur
     private void updateFasterUi(){
         
         if(myPlayer.isFaster) {
@@ -80,11 +129,11 @@ public class CharacterUI : MonoBehaviour
 
         
     }
-
     private void updateBlind() {
         if (myPlayer.isBlind)
         {
             buffBlind.enabled = true;
+            
             buffBlind.fillAmount = ((float)(System.Math.Round((myPlayer.getTimeBlind() - Time.time), 2)) / 10);
         }
         else
@@ -118,8 +167,8 @@ public class CharacterUI : MonoBehaviour
         else
             buffPositiv.enabled = false;
     }
-
-
+    //################################################"
+    //update de l'effet de particule du Blind
     private void updateBlindParticle() {
         if(myPlayer.isBlind) {
             blindParticle.SetActive(true);

@@ -29,10 +29,7 @@ public class Bonus : MonoBehaviour {
                 bonusDuration = 10f;
                 myPlayer.handleBonus(bonusDuration, type);
                 break;
-            case 2:
-                bonusDuration = 10f;
-                myPlayer.handleBonus(bonusDuration, type);
-                break;
+           
         }
         Destroy(gameObject);
 

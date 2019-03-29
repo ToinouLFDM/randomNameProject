@@ -49,19 +49,24 @@ public class Character : MonoBehaviour {
     public int getScore () {
         return score;
     }
-
+    private float time= 0f;
 
 	//variable pour afficher le texte
-	Text LifeText;
-	public GameObject Text;
 	
-	public GameObject Text2;
+    private TMPro.TextMeshProUGUI LifeText;
+    public GameObject Text;
+	
+	
+
+    private CharacterUI UI;
 
 	// Use this for initialization
 	void Start () 
 	{
-		//initilise le text affiché
-		LifeText = Text.GetComponent <Text>();
+        UI = GetComponent<CharacterUI>();
+        time = (float)System.Math.Round(Time.time,2);
+        //initilise le text affiché
+        LifeText = Text.GetComponent <TMPro.TextMeshProUGUI>();
         Life_ = 10;
 		//initialisation tableau d'item
 		for (int i = 0; i < 10; i++)
@@ -74,31 +79,38 @@ public class Character : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		//affiche la somme du player
-		LifeText.text = Life_.ToString();
-		
-		Count+=1;
-		if (Count == 18) 
-		{
-			Count = 0;
-			score += (Life_ / 10) + 1;
-		}
+        time = (float)System.Math.Round(Time.time, 2);
+        //affiche la somme du player
+        LifeText.text = Life_.ToString();
+
+        updateSore();
         updateMalus();
         updateBonus();
         
 
 	}
+    public void updateSore () {
+        Count += 1;
+        float temp = time / 30;
+        if (Count >= (100/temp)){
+            Count = 0;
+            score += Life_/2;
+        }
+            
+    }
     public void updateBonus(){
         if(isPositiv) {
             if (timePositiv < Time.time) {
                 isPositiv = false;
                 timePositiv = 0;
+                UI.updatePositionBuffDelete("Positiv");
             }
         }
         if(isSlower) {
             if(timeSlower < Time.time){
                 isSlower = false;
                 timeSlower = 0;
+                UI.updatePositionBuffDelete("Slower");
             }
            
         }
@@ -112,6 +124,7 @@ public class Character : MonoBehaviour {
                 isBlind = false;
                 timeBlind = 0;
                 Debug.Log("no more blind");
+                UI.updatePositionBuffDelete("Blind");
             }
         }
         if (isX2)
@@ -122,6 +135,7 @@ public class Character : MonoBehaviour {
                 isX2 = false;
                 timeisX2= 0;
                 Debug.Log("no more X2");
+                UI.updatePositionBuffDelete("X2");
             }
         }
         if (isFaster)
@@ -132,23 +146,40 @@ public class Character : MonoBehaviour {
                 isFaster = false;
                 timeFaster = 0;
                 Debug.Log("no more Fast");
+                UI.updatePositionBuffDelete("Faster");
             }
         }
     }
     public void handleBonus(float bonusDuration,int type){
         switch (type) {
             case 0:
-                Debug.Log("Positiv");
-                isPositiv = true;
                 timePositiv = Time.time + bonusDuration;
+                //on vérifie que le buff n'est pas deja actif s'il ne l'est pas on update l'ui
+                if (isPositiv) {
+                    UI.updatePositionBuffDelete("Positiv");
+                    UI.updatePositionBuffAdd("Positiv");
+                }
+                else
+                    UI.updatePositionBuffAdd("Positiv");
+                isPositiv = true;
                 break;
             case 1:
-                Debug.Log("Slower");
+                //on vérifie que le buff n'est pas deja actif s'il ne l'est pas on update l'ui
+                if (isFaster)
+                    UI.updatePositionBuffDelete("Faster");
+                if (isSlower) {
+                    UI.updatePositionBuffDelete("Slower");
+                    UI.updatePositionBuffAdd("Slower");
+                }
+                else
+                    UI.updatePositionBuffAdd("Slower");
+                
                 isSlower = true;
                 isFaster = false;
                 timeSlower = Time.time + bonusDuration;
                 break;
         }
+        UI.updatePositionBuff();
     }
 
     
@@ -158,21 +189,45 @@ public class Character : MonoBehaviour {
         switch (type)
         {
             case 0:
-                isX2 = true;
                 timeisX2 = Time.time + malusDuration;
+                //on vérifie que le buff n'est pas deja actif s'il ne l'est pas on update l'ui
+                if (isX2) {
+                    UI.updatePositionBuffDelete("X2");
+                    UI.updatePositionBuffAdd("X2");
+                }
+                else
+                    UI.updatePositionBuffAdd("X2");
+                isX2 = true;
                 break;
             case 1:
+                timeFaster = Time.time + malusDuration;
+                //on vérifie que le buff n'est pas deja actif s'il ne l'est pas on update l'ui
+                if (isSlower)
+                    UI.updatePositionBuffDelete("Slower");
+                if (isFaster) {
+                    UI.updatePositionBuffDelete("Faster");
+                    UI.updatePositionBuffAdd("Faster");
+                }
+                else
+                    UI.updatePositionBuffAdd("Faster");
+                
                 isFaster = true;
                 isSlower = false;
-                timeFaster = Time.time + malusDuration;
                 break;
             case 2:
-                isBlind = true;
                 timeBlind = Time.time + malusDuration;
+                //on vérifie que le buff n'est pas deja actif s'il ne l'est pas on update l'ui
+                if (isBlind) {
+                    UI.updatePositionBuffDelete("Blind");
+                    UI.updatePositionBuffAdd("Blind");
+                }
+                else
+                    UI.updatePositionBuffAdd("Blind");
+                isBlind = true;
                 break;
         }
         Debug.Log(obj);
-        
+        UI.updatePositionBuff();
         Destroy(obj);
 
     }
