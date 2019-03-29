@@ -11,7 +11,8 @@ public class Malus : MonoBehaviour {
    
 	// Use this for initialization
 	void Start () {
-        type = Random.Range(0,3);
+         type = Random.Range(0,3);
+        
         //0 => x2, 1 => speed, 2 => Blind
     }
 	

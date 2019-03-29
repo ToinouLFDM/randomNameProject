@@ -8,6 +8,8 @@ public class SpawnField : MonoBehaviour {
 	public GameObject Obstacle;
 	public GameObject ObstacleStaticNonGeneric;
 	public GameObject MysteryBox;
+    [SerializeField]
+    private GameObject mysteryBoxBonus;
 	//Transform du Terrain
 	public Transform TerrainTransform;
 
@@ -126,7 +128,11 @@ public class SpawnField : MonoBehaviour {
 		int randomBox =Random.Range(1,7);
 		if (randomBox == 1) {
 			 NewSpawn = new Vector3 (Spawn.x - (Random.Range (1f, 4f)), 10, SpawnPositionZ);
-			Instantiate (MysteryBox, NewSpawn, TerrainTransform.rotation);
+            int plop = Random.Range(1, 3);
+            if (plop == 1)
+                Instantiate(MysteryBox, NewSpawn, TerrainTransform.rotation);
+            else
+                Instantiate(mysteryBoxBonus, NewSpawn, TerrainTransform.rotation);
 		} else 
 		{
 			Instantiate (Obstacle, NewSpawn, TerrainTransform.rotation);

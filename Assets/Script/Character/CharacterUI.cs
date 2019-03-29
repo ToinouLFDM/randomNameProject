@@ -11,9 +11,20 @@ public class CharacterUI : MonoBehaviour
     private Character myPlayer;
 
     //variable Texte d'affichage
+    
+
     [SerializeField]
-    private GameObject textBuffGO;
-    private Text textBuff;
+    private Image buffFaster;
+    
+    [SerializeField]
+    private Image buffBlind;
+    [SerializeField]
+    private Image buffX2;
+    [SerializeField]
+    private Image buffPositiv;
+    [SerializeField]
+    private Image buffSlower;
+
 
     [SerializeField]
     private GameObject textScoreGO;
@@ -28,15 +39,23 @@ public class CharacterUI : MonoBehaviour
     {
         myPlayer = GetComponent<Character>();
         scoreText = textScoreGO.GetComponent<Text>();
-        textBuff = textBuffGO.GetComponent<Text>();
+       
+        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        updateBuff();
         updateScore();
+        updateBlindParticle();
+        updateFasterUi();
         updateBlind();
+        updateX2();
+        updatePositiv();
+        updateSlower();
+
+
     }
 
     //fonction utilisé pour affciher le score du joueur
@@ -45,25 +64,63 @@ public class CharacterUI : MonoBehaviour
     }
 
     //fonction appelé toute les frames pour actualiser le temps restant des buffs présent sur le joueur
-    private void updateBuff()
-    {
-        string affichage = "";
-        if (myPlayer.isX2)
-        {
-            affichage += " X2:" + (System.Math.Round((myPlayer.getTimeX2() - Time.time),0));
+    
+
+
+    private void updateFasterUi(){
+        
+        if(myPlayer.isFaster) {
+            buffFaster.enabled=true;//Keep track of the time that has passed
+            buffFaster.fillAmount =  ((float)(System.Math.Round((myPlayer.getTimeFaster() - Time.time), 2))/10);
+
+            
         }
-        if (myPlayer.isBlind)
-        {
-            affichage += " Blind:" + (System.Math.Round((myPlayer.getTimeBlind() - Time.time),0));
-        }
-        if (myPlayer.isFaster)
-        {
-            affichage += " Faster:" + (System.Math.Round((myPlayer.getTimeFaster() - Time.time),0));
-        }
-        textBuff.text = affichage;
+        else 
+            buffFaster.enabled=false;
+
+        
     }
 
     private void updateBlind() {
+        if (myPlayer.isBlind)
+        {
+            buffBlind.enabled = true;
+            buffBlind.fillAmount = ((float)(System.Math.Round((myPlayer.getTimeBlind() - Time.time), 2)) / 10);
+        }
+        else
+            buffBlind.enabled = false;
+    }
+    private void updateX2() {
+        if (myPlayer.isX2) {
+            buffX2.enabled = true;
+            buffX2.fillAmount = ((float)(System.Math.Round((myPlayer.getTimeX2() - Time.time), 2)) / 10);
+        }
+        else
+            buffX2.enabled = false;
+    }
+    private void updateSlower()
+    {
+        if (myPlayer.isSlower)
+        {
+            buffSlower.enabled = true;
+            buffSlower.fillAmount = ((float)(System.Math.Round((myPlayer.getTimeSlower() - Time.time), 2)) / 10);
+        }
+        else
+            buffSlower.enabled = false;
+    }
+    private void updatePositiv()
+    {
+        if (myPlayer.isPositiv)
+        {
+            buffPositiv.enabled = true;
+            buffPositiv.fillAmount = ((float)(System.Math.Round((myPlayer.getTimePositiv() - Time.time), 2)) / 10);
+        }
+        else
+            buffPositiv.enabled = false;
+    }
+
+
+    private void updateBlindParticle() {
         if(myPlayer.isBlind) {
             blindParticle.SetActive(true);
         }

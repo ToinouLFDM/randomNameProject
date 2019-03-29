@@ -29,7 +29,20 @@ public class Character : MonoBehaviour {
     public float getTimeFaster() {
         return timeFaster;
     }
+    //variable qui indique la présence des bonus
+    public bool isPositiv=false;
+    public bool isSlower=false;
 
+    //variable qui correspond au temps restant des Bonus
+    private float timePositiv = 0;
+    private float timeSlower = 0;
+
+    public float getTimePositiv(){
+        return timePositiv;
+    }
+    public float getTimeSlower(){
+        return timeSlower;
+    }
 
 	int Count;
 	private int score;
@@ -71,10 +84,25 @@ public class Character : MonoBehaviour {
 			score += (Life_ / 10) + 1;
 		}
         updateMalus();
+        updateBonus();
         
 
 	}
-
+    public void updateBonus(){
+        if(isPositiv) {
+            if (timePositiv < Time.time) {
+                isPositiv = false;
+                timePositiv = 0;
+            }
+        }
+        if(isSlower) {
+            if(timeSlower < Time.time){
+                isSlower = false;
+                timeSlower = 0;
+            }
+           
+        }
+    }
 
 
     public void updateMalus() {
@@ -107,7 +135,23 @@ public class Character : MonoBehaviour {
             }
         }
     }
+    public void handleBonus(float bonusDuration,int type){
+        switch (type) {
+            case 0:
+                Debug.Log("Positiv");
+                isPositiv = true;
+                timePositiv = Time.time + bonusDuration;
+                break;
+            case 1:
+                Debug.Log("Slower");
+                isSlower = true;
+                isFaster = false;
+                timeSlower = Time.time + bonusDuration;
+                break;
+        }
+    }
 
+    
 
     public void handleMalus(float malusDuration, GameObject obj, int type)
     {
@@ -119,6 +163,7 @@ public class Character : MonoBehaviour {
                 break;
             case 1:
                 isFaster = true;
+                isSlower = false;
                 timeFaster = Time.time + malusDuration;
                 break;
             case 2:

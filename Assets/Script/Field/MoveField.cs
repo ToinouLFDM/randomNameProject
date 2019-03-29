@@ -55,12 +55,16 @@ public class MoveField : MonoBehaviour {
 			}
 
 		}
-        Vector3 translate = new Vector3(-speed, 0, 0);
-        if (myPlayer.isFaster)
-        {
-            translate = new Vector3(-speed * 2, 0, 0);
-            Debug.Log("yolo");
+        float coef = 1;
+        if(myPlayer.isFaster) {
+            coef = 2;
+            
+            }
+        if(myPlayer.isSlower) {
+            coef = 0.8f;
         }
+        Vector3 translate = new Vector3(-speed*coef, 0, 0);
+        
 		    
         FieldPosition.Translate(translate);
 
